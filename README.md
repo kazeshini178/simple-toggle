@@ -7,6 +7,7 @@ Simple feature toggling library to work with basic on/off toggles, allowing the 
 * In Memory
 * AWS
   * Parameter Store
+  * DynamoDB Table
 
 ### Usage
 
