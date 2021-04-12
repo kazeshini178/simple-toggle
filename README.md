@@ -8,6 +8,7 @@ Simple feature toggling library to work with basic on/off toggles, allowing the 
 * AWS
   * Parameter Store
   * DynamoDB Table
+  * Secrets Manager
 
 ### Usage
 
