@@ -2,6 +2,9 @@
 
 Simple feature toggling library to work with basic on/off toggles, allowing the toggles to be stored in the service of your choice.
 
+[![.NET](https://github.com/kazeshini178/simple-toggle/actions/workflows/dotnetCI.yml/badge.svg?branch=main)](https://github.com/kazeshini178/simple-toggle/actions/workflows/dotnetCI.yml)
+
+
 ## Toggle Sources
 
 * In Memory
