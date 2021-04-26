@@ -12,6 +12,9 @@ Simple feature toggling library to work with basic on/off toggles, allowing the 
   * Parameter Store
   * DynamoDB Table
   * Secrets Manager
+* Azure 
+  * App Configuration
+
 
 ### Usage
 
@@ -19,7 +22,7 @@ Simple feature toggling library to work with basic on/off toggles, allowing the 
 
 ## TODO Lists
 
-* [ ] Add Additional AWS Sources
+* [*] Add Additional AWS Sources
 * [ ] Add GPC and Azure Equivalents 
 * [ ] Allow for some basic configuration options
 * [ ] Publish to Nuget
@@ -32,4 +35,5 @@ For more feature rich alternatives, that allow A/B testing toggles, more then ju
 * [LaunchDarkly](https://launchdarkly.com/)
 * [Optimizely](https://www.optimizely.com/) 
 * [Split: Feature Flags](https://www.split.io/product/feature-flags/) 
+* [Feature Management .Net](https://github.com/microsoft/FeatureManagement-Dotnet) - Azure 
 
