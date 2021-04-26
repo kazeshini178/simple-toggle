@@ -22,7 +22,7 @@ Simple feature toggling library to work with basic on/off toggles, allowing the 
 
 ## TODO Lists
 
-* [*] Add Additional AWS Sources
+* [x] Add Additional AWS Sources
 * [ ] Add GPC and Azure Equivalents 
 * [ ] Allow for some basic configuration options
 * [ ] Publish to Nuget
