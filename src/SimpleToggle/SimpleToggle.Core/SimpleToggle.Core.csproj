@@ -3,7 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageProjectUrl>https://github.com/kazeshini178/simple-toggle</PackageProjectUrl>
-    <Description>Core library for Simple Toggle that includes a simple InMemory toggle source.</Description>
+    <Description>Core library for Simple Toggle that includes a simple InMemory toggle source.
+</Description>
+    <RepositoryUrl>https://github.com/kazeshini178/simple-toggle</RepositoryUrl>
+    <Authors>Miguel Laranjeira</Authors>
+    <PackageTags>Feature Flags</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
