@@ -1,0 +1,1 @@
+Adds AWS toggle sources for Simple Toggle. Includes ParameterStore, DynamoDb and Secrets Manager sources.
