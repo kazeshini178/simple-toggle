@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Authors>Miguel Laranjeira</Authors>
+    <PackageProjectUrl>https://github.com/kazeshini178/simple-toggle</PackageProjectUrl>
+    <PackageTags>Feature Flag; Toggle Source</PackageTags>
+    <Description>Adds AWS toggle sources for Simple Toggle. Includes ParameterStore, DynamoDb and Secrets Manager sources.</Description>
   </PropertyGroup>
 
   <ItemGroup>
