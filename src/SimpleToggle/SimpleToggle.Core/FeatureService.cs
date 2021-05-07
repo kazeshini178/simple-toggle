@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SimpleToggle.Core
@@ -20,6 +17,11 @@ namespace SimpleToggle.Core
             this.logger = logger;
         }
 
+        public Task<List<ToggleDetails>> GetAllToggles()
+        {
+            return source.GetAllToggles();
+        }
+
         public async Task<bool> GetToggleValue(string toggleName)
         {
             logger.LogDebug("Confirming if Toggle value has been cached");
@@ -33,5 +35,13 @@ namespace SimpleToggle.Core
             cachedValues.Add(toggleName, value);
             return value;
         }
+
+        public Task UpdateToggleValue(string toggleName, bool value)
+        {
+            _ = cachedValues.Remove(toggleName);
+            return source.UpdateToggleValue(toggleName, value);
+        }
+
+        public Task UpdateToggleValue(ToggleDetails toggle) => UpdateToggleValue(toggle.Name, toggle.Value);
     }
 }

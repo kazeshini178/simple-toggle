@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Amazon.SecretsManager;
 using Amazon.SecretsManager.Model;
@@ -18,6 +17,30 @@ namespace SimpleToggle.Sources.AWS
         {
             this.secretsManager = secretsManager;
             this.toggles = toggles.Value;
+        }
+
+        public async Task<List<ToggleDetails>> GetAllToggles()
+        {
+            var secretIds = toggles.Values.ToList();
+            var toggleDetails = new List<ToggleDetails>();
+            while (secretIds.Count != 0)
+            {
+                // SecretsManager API doesnt have a bulk retrieval according to the Docs
+                // Consider a better approach, also consider error states
+                var tasks = secretIds.Take(5)
+                                     .Select(t => secretsManager.GetSecretValueAsync(new GetSecretValueRequest() { SecretId = t }))
+                                     .ToList();
+
+                var results = await Task.WhenAll(tasks);
+                toggleDetails.AddRange(results.Select(r =>
+                {
+                    _ = bool.TryParse(r.SecretString, out bool value);
+                    return new ToggleDetails(r.Name, value);
+                }));
+                secretIds.RemoveRange(0, tasks.Count);
+            }
+
+            return toggleDetails;
         }
 
         public async Task<bool> GetToggleValue(string toggleName)
@@ -41,6 +64,20 @@ namespace SimpleToggle.Sources.AWS
             {
                 return false;
             }
+        }
+
+        public async Task UpdateToggleValue(string toggleName, bool value)
+        {
+            if (!toggles.TryGetValue(toggleName, out var parameterName))
+            {
+                return;
+            }
+
+            _ = await secretsManager.PutSecretValueAsync(new PutSecretValueRequest()
+            {
+                SecretId = parameterName,
+                SecretString = value.ToString()
+            });
         }
     }
 }

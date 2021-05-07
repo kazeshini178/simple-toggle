@@ -8,5 +8,7 @@ namespace SimpleToggle.Core
     public interface IToggleSource
     {
         Task<bool> GetToggleValue(string toggleName);
+        Task<List<ToggleDetails>> GetAllToggles();
+        Task UpdateToggleValue(string toggleName, bool value);
     }
 }
