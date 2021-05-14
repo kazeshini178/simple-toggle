@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
@@ -7,6 +7,9 @@
 		<PackageTags>Feature Flag; Toggle Source</PackageTags>
 		<Description>Adds Azure toggle sources for Simple Toggle. Includes App Configuration sources.</Description>
 	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\SimpleToggle.Core\SimpleToggle.Core.csproj" />
 	</ItemGroup>
