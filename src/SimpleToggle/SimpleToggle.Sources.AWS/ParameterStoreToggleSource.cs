@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Amazon.SimpleSystemsManagement;
@@ -18,6 +19,20 @@ namespace SimpleToggle.Sources.AWS
         {
             this.toggles = toggles.Value;
             this.systemsManagement = systemsManagement;
+        }
+
+        public async Task<List<ToggleDetails>> GetAllToggles()
+        {
+            var result = await systemsManagement.GetParametersAsync(new GetParametersRequest()
+            {
+                Names = toggles.Values.ToList()
+            });
+
+            return result.Parameters.Select(p =>
+            {
+                _ = bool.TryParse(p.Value, out bool value);
+                return new ToggleDetails(p.Name, value);
+            }).ToList();
         }
 
         public async Task<bool> GetToggleValue(string toggleName)
@@ -41,6 +56,21 @@ namespace SimpleToggle.Sources.AWS
             {
                 return false;
             }
+        }
+
+        public async Task UpdateToggleValue(string toggleName, bool value)
+        {
+            if (!toggles.TryGetValue(toggleName, out var parameterName))
+            {
+                return;
+            }
+
+            _ = await systemsManagement.PutParameterAsync(new PutParameterRequest()
+            {
+                Name = parameterName,
+                Value = value.ToString(),
+                Overwrite = true,
+            });
         }
     }
 }

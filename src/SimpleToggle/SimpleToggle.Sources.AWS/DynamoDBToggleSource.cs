@@ -22,6 +22,38 @@ namespace SimpleToggle.Sources.AWS
             this.toggles = toggles.Value;
         }
 
+        public async Task<List<ToggleDetails>> GetAllToggles()
+        {
+            var keysToGet = new List<Dictionary<string, AttributeValue>>();
+            foreach (var toggle in toggles)
+            {
+                keysToGet.Add(new Dictionary<string, AttributeValue>()
+                {
+                    [DYNAMODB_TOGGLE_NAME_COLUMN] = new AttributeValue(toggle.Value)
+                });
+            };
+
+            var result = await dynamoDB.BatchGetItemAsync(new BatchGetItemRequest()
+            {
+                ReturnConsumedCapacity = ReturnConsumedCapacity.NONE,
+                RequestItems = new Dictionary<string, KeysAndAttributes>
+                {
+                    [DYNAMODB_TABLE_NAME] = new KeysAndAttributes()
+                    {
+                        Keys = keysToGet
+                    }
+                }
+            });
+
+            var tableFields = result.Responses[DYNAMODB_TABLE_NAME];
+            var toggleDetails = new List<ToggleDetails>();
+            foreach (var rowFields in tableFields)
+            {
+                toggleDetails.Add(new ToggleDetails(rowFields[DYNAMODB_TOGGLE_NAME_COLUMN].S, rowFields[DYNAMODB_TOGGLE_VALUE_COLUMN].BOOL));
+            }
+            return toggleDetails;
+        }
+
         public async Task<bool> GetToggleValue(string toggleName)
         {
             if (!toggles.TryGetValue(toggleName, out var parameterName))
@@ -42,6 +74,28 @@ namespace SimpleToggle.Sources.AWS
             return response.Item.ContainsKey(DYNAMODB_TOGGLE_VALUE_COLUMN) ? response.Item[DYNAMODB_TOGGLE_VALUE_COLUMN].BOOL : false;
             //return response.Item.ContainsKey(DYNAMODB_TOGGLE_VALUE_COLUMN) && response.Item[DYNAMODB_TOGGLE_VALUE_COLUMN].BOOL;
 
+        }
+
+        public async Task UpdateToggleValue(string toggleName, bool value)
+        {
+            if (!toggles.TryGetValue(toggleName, out var parameterName))
+            {
+                return;
+            }
+
+            _ = await dynamoDB.UpdateItemAsync(new UpdateItemRequest()
+            {
+                TableName = DYNAMODB_TABLE_NAME,
+                Key = new Dictionary<string, AttributeValue>()
+                {
+                    [DYNAMODB_TOGGLE_NAME_COLUMN] = new AttributeValue(parameterName)
+                },
+                UpdateExpression = $"SET {DYNAMODB_TOGGLE_VALUE_COLUMN} = :value",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>()
+                {
+                    [":value"] = new AttributeValue() { BOOL = value }
+                }
+            });
         }
     }
 }
