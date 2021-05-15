@@ -66,3 +66,21 @@ jobs:
           TAG_COMMIT: false
           NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
           #INCLUDE_SYMBOLS: true
+
+  package-azure-sources:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+        with: 
+          fetch-depth: 0     
+          
+      - name: Publish Azure Source
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          PROJECT_FILE_PATH: src/SimpleToggle/SimpleToggle.Sources.Azure/
+          PACKAGE_NAME: SimpleToggle.Azure
+          VERSION_STATIC: ${{ needs.build.outputs.version }}
+          TAG_COMMIT: false
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+          #INCLUDE_SYMBOLS: true

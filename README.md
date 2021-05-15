@@ -18,15 +18,33 @@ Simple feature toggling library to work with basic on/off toggles, allowing the 
 
 ### Usage
 
-// TODO: Once published
+1. Install from Nuget
+```bash
+dotnet add package SimpleToggle.Core
+```
+
+2. Update StartUp.cs
+```csharp
+public class StartUp
+{
+...
+    public void ConfigureServices(IServiceCollection services)
+    {
+       ...
+       services.AddFeatureService<InMemoryToggleSource>();
+       ...
+    }
+...
+}
+```
 
 ## TODO Lists
 
 * [x] Add Additional AWS Sources
 * [ ] Add GPC and Azure Equivalents 
 * [ ] Allow for some basic configuration options
-* [ ] Publish to Nuget
-* [ ] Added tests
+* [x] Publish to Nuget
+* [x] Added tests
 
 ## Alternatives
 

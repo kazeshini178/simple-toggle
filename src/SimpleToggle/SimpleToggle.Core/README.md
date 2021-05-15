@@ -1,1 +1,0 @@
-Core library for Simple Toggle that includes a simple InMemory toggle source.
