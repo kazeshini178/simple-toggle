@@ -38,6 +38,35 @@ public class StartUp
 }
 ```
 
+3. Use `IFeatureService`
+```csharp
+public class Features 
+{
+   public const string MYSTERY_FEATURE = "feature_indentifier";
+}
+
+public class Sample
+{
+    private readonly IFeatureService _featureService;
+
+    public Sample(IFeatureService featureService)
+    {
+        _featureService = featureService;
+    }
+
+    public async Task<string> MysteryFeature ()
+    {
+        if (await _featureService.GetToggleValue(Features.MYSTERY_FEATURE))
+        {
+          return "Feature Enabled";
+        } 
+        else 
+        {
+          return "Feature Not Enabled";
+        }
+    }
+}
+```
 ## TODO Lists
 
 * [x] Add Additional AWS Sources
